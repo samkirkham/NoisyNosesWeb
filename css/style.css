@@ -91,7 +91,7 @@ button.primary-btn:hover { background: #4a4a4a; }
 }
 .title-bar h1 {
   font-family: 'Fredoka One', cursive;
-  font-size: 1.7rem;
+  font-size: 2.2rem;
   color: #1a1a1a;
   white-space: nowrap;
 }
@@ -160,8 +160,8 @@ button.primary-btn:hover { background: #4a4a4a; }
 .nasalance-trace {
   position: absolute;
   bottom: 10px;
-  left: 230px;
-  right: 100px;
+  left: 140px;
+  right: 140px;
   height: 72px;
   background: #1a1a2a;
   border: 2px solid #3a3a5a;
@@ -173,18 +173,18 @@ button.primary-btn:hover { background: #4a4a4a; }
 /* ── The Face ─────────────────────────────── */
 .face-wrap {
   position: absolute;
-  top: 46px;
+  top: 52px;
   left: 50%;
   transform: translateX(-50%);
-  width: 360px;
-  height: 432px;
+  width: 340px;
+  height: 408px;
 }
 svg#face { width: 100%; height: 100%; }
 
 /* ── Controls panel ───────────────────────── */
 .controls-panel {
   position: absolute;
-  bottom: 10px;
+  bottom: 110px;
   left: 10px;
   display: flex;
   flex-direction: column;
@@ -255,7 +255,7 @@ input[type="range"]::-webkit-slider-thumb {
 /* ── Nasalance readout ────────────────────── */
 .nasalance-readout {
   position: absolute;
-  bottom: 92px;
+  bottom: 100px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -280,7 +280,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 .hint-bar {
   position: absolute;
-  bottom: 72px;
+  bottom: 84px;
   left: 50%;
   transform: translateX(-50%);
   font-size: 0.68rem;
@@ -292,15 +292,15 @@ input[type="range"]::-webkit-slider-thumb {
 /* ── Lab logo ─────────────────────────────── */
 .lab-logo {
   position: absolute;
-  bottom: 14px;
-  right: 14px;
+  bottom: 110px;
+  right: 150px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 2px;
 }
 .lab-logo img {
-  width: 76px;
+  width: 150px;
   height: auto;
 }
 
