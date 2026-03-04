@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noisy Noses — Lancaster University Phonetics Lab</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="start-screen">
+  <h1>Noisy N👃ses</h1>
+  <p>Connect a stereo mic (nasal + oral). Left channel = nasal, right = oral.</p>
+  <div class="start-row">
+    <label>Audio source</label>
+    <select id="audio-source" style="width:220px;"></select>
+  </div>
+  <button class="primary-btn" id="start-btn">Start</button>
+  <div id="error" class="error-msg" style="display:none"></div>
+</div>
+
+<div id="app">
+  <div class="title-bar">
+    <h1>Noisy N👃ses</h1>
+    <button class="clean-toggle" id="clean-toggle" title="Toggle clean view">☰</button>
+  </div>
+
+  <!-- VU meters -->
+  <div class="vu-meter vu-nasal">
+    <div class="vu-meter-track"><div class="vu-meter-fill" id="vu-nasal-fill"></div></div>
+    <div class="vu-meter-label">Nasal</div>
+  </div>
+  <div class="vu-meter vu-oral">
+    <div class="vu-meter-track"><div class="vu-meter-fill" id="vu-oral-fill"></div></div>
+    <div class="vu-meter-label">Oral</div>
+  </div>
+
+  <!-- Nasalance trace -->
+  <div class="nasalance-trace">
+    <canvas id="nasalance-trace-canvas"></canvas>
+  </div>
+
+  <!-- Face SVG -->
+  <div class="face-wrap">
+    <svg id="face" viewBox="0 0 280 340" xmlns="http://www.w3.org/2000/svg">
+      <!-- Face body -->
+      <rect x="10" y="10" width="260" height="320" rx="32" ry="32"
+            fill="#b6d8e8" stroke="#1a3a4a" stroke-width="4"/>
+      <!-- Eyebrows -->
+      <path d="M62 88 Q84 58 118 80" fill="#2a5a6a"/>
+      <path d="M218 88 Q196 58 162 80" fill="#2a5a6a"/>
+      <!-- Left eye -->
+      <circle cx="90" cy="122" r="36" fill="#fff" stroke="#1a3a4a" stroke-width="3"/>
+      <circle cx="90" cy="124" r="16" fill="#2a5a6a"/>
+      <circle cx="90" cy="124" r="7" fill="#0a0a0a"/>
+      <circle cx="84" cy="118" r="3.5" fill="#fff" opacity="0.6"/>
+      <!-- Right eye -->
+      <circle cx="190" cy="122" r="36" fill="#fff" stroke="#1a3a4a" stroke-width="3"/>
+      <circle cx="190" cy="124" r="16" fill="#2a5a6a"/>
+      <circle cx="190" cy="124" r="7" fill="#0a0a0a"/>
+      <circle cx="184" cy="118" r="3.5" fill="#fff" opacity="0.6"/>
+      <!-- Nose -->
+      <circle id="nose-circle" cx="140" cy="196" r="36" fill="#ffffff" stroke="#1a3a4a" stroke-width="3"/>
+      <!-- Mouth -->
+      <rect id="mouth-rect" x="58" y="256" width="164" height="68" rx="6" ry="6"
+            fill="#d0d0d0" stroke="#1a3a4a" stroke-width="3"/>
+      <!-- Upper teeth row -->
+      <rect x="66" y="260" width="21" height="25" rx="2" fill="#fff" stroke="#1a3a4a" stroke-width="1.5"/>
+      <rect x="91" y="260" width="21" height="25" rx="2" fill="#fff" stroke="#1a3a4a" stroke-width="1.5"/>
+      <rect x="116" y="260" width="21" height="25" rx="2" fill="#fff" stroke="#1a3a4a" stroke-width="1.5"/>
+      <rect x="141" y="260" width="21" height="25" rx="2" fill="#fff" stroke="#1a3a4a" stroke-width="1.5"/>
+      <rect x="166" y="260" width="21" height="25" rx="2" fill="#fff" stroke="#1a3a4a" stroke-width="1.5"/>
+      <rect x="191" y="260" width="21" height="25" rx="2" fill="#fff" stroke="#1a3a4a" stroke-width="1.5"/>
+      <!-- Gap line -->
+      <line x1="60" y1="288" x2="220" y2="288" stroke="#1a3a4a" stroke-width="2"/>
+      <!-- Lower teeth row -->
+      <rect x="72" y="292" width="21" height="25" rx="2" fill="#fff" stroke="#1a3a4a" stroke-width="1.5"/>
+      <rect x="97" y="292" width="21" height="25" rx="2" fill="#fff" stroke="#1a3a4a" stroke-width="1.5"/>
+      <rect x="122" y="292" width="21" height="25" rx="2" fill="#fff" stroke="#1a3a4a" stroke-width="1.5"/>
+      <rect x="147" y="292" width="21" height="25" rx="2" fill="#fff" stroke="#1a3a4a" stroke-width="1.5"/>
+      <rect x="172" y="292" width="21" height="25" rx="2" fill="#fff" stroke="#1a3a4a" stroke-width="1.5"/>
+      <rect x="197" y="292" width="21" height="25" rx="2" fill="#fff" stroke="#1a3a4a" stroke-width="1.5"/>
+    </svg>
+  </div>
+
+  <!-- Nasalance readout -->
+  <div class="nasalance-readout">
+    <div class="nasalance-value" id="nasalance-val">—</div>
+    <div class="nasalance-label">Nasalance</div>
+  </div>
+
+  <div class="hint-bar">
+    Try: <span>"mmm"</span> nasal · <span>"aaa"</span> oral · <span>"mama"</span> both
+  </div>
+
+  <!-- Controls -->
+  <div class="controls-panel">
+    <div class="control-row">
+      <span class="control-label">Source</span>
+      <select id="audio-source-live"></select>
+    </div>
+    <div class="control-row">
+      <span class="control-label">Nasal gain</span>
+      <input type="range" id="gain-nasal" min="0" max="3" step="0.05" value="1">
+    </div>
+    <div class="control-row">
+      <span class="control-label">Oral gain</span>
+      <input type="range" id="gain-oral" min="0" max="3" step="0.05" value="1">
+    </div>
+    <div class="control-row">
+      <span class="control-label">Mode</span>
+      <button class="toggle-btn active" id="mode-relative">Relative</button>
+      <button class="toggle-btn" id="mode-absolute">Absolute</button>
+    </div>
+    <div class="control-row">
+      <span class="control-label">Smoothing</span>
+      <input type="range" id="smoothing" min="0.80" max="0.98" step="0.01" value="0.92">
+    </div>
+  </div>
+
+  <!-- Lab logo -->
+  <div class="lab-logo">
+    <img src="logo.png" alt="Lancaster University Phonetics Lab">
+  </div>
+</div>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

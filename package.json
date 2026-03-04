@@ -1,0 +1,9 @@
+{
+  "name": "NoisyNosesWeb",
+  "version": "1.0.0",
+  "description": "Real-time nasalance visualisation",
+  "license": "MIT",
+  "scripts": {
+    "start": "npx serve ."
+  }
+}
