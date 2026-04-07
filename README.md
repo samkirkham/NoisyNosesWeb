@@ -12,8 +12,8 @@ An older prototype of the `NoisyNosesWeb` software is available as [NoisyNoses](
 - Nasalance percentage readout (relative mode) or per-channel dB (absolute mode)
 - Rolling nasalance trace (time × percentage)
 - Per-channel gain sliders and smoothing control
-- Toggle (☰) next to top logo to hide controls for demos/presentations
-- 100 Hz high-pass filter and DC offset removal for stable readings
+- Toggle (☰) next to top logo to hide controls
+
 
 ## Local usage
 
